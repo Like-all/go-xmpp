@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	nsMUC	  = "http://jabber.org/protocol/muc"
-	nsMUCUser = "http://jabber.org/protocol/muc#user"
+	nsMUC			= "http://jabber.org/protocol/muc"
+	nsMUCUser		= "http://jabber.org/protocol/muc#user"
+	nsConference	= "jabber:x:conference"
 )
 
 // xep-0045 7.2
@@ -55,8 +56,8 @@ func (c *Client) InviteToMUC(srcJid, destJid, roomJid, password, reason string) 
 		reason = "reason='" + xmlEscape(reason) + "'"
 	}
 	fmt.Fprintf(c.conn, "<message from='%s' to='%s'>\n" +
-		"<x xmlns='jabber:x:conference'" +
+		"<x xmlns='%s'" +
 		"jid='%s' %s %s/>" +
 		"</message>",
-		xmlEscape(srcJid), xmlEscaoe(destJid), xmlEscape(roomJid), password, reason)
+		xmlEscape(srcJid), xmlEscaoe(destJid), nsConference, xmlEscape(roomJid), password, reason)
 }
