@@ -3,8 +3,8 @@
 // license that can be found in the LICENSE file.
 
 // TODO(flo):
-//   - support password protected MUC rooms
-//   - cleanup signatures of join/leave functions
+//	 - support password protected MUC rooms
+//	 - cleanup signatures of join/leave functions
 package xmpp
 
 import (
@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	nsMUC     = "http://jabber.org/protocol/muc"
+	nsMUC	  = "http://jabber.org/protocol/muc"
 	nsMUCUser = "http://jabber.org/protocol/muc#user"
 )
 
@@ -44,4 +44,19 @@ func (c *Client) JoinProtectedMUC(jid, nick string, password string) {
 func (c *Client) LeaveMUC(jid string) {
 	fmt.Fprintf(c.conn, "<presence from='%s' to='%s' type='unavailable' />",
 		c.jid, xmlEscape(jid))
+}
+
+//xep-0249 2.1
+func (c *Client) InviteToMUC(srcJid, destJid, roomJid, password, reason string) {
+	if password != "" {
+		password = "password='" + xmlEscape(password) + "'"
+	}
+	if reason != "" {
+		reason = "reason='" + xmlEscape(reason) + "'"
+	}
+	fmt.Fprintf(c.conn, "<message from='%s' to='%s'>\n" +
+		"<x xmlns='jabber:x:conference'" +
+		"jid='%s' %s %s/>" +
+		"</message>",
+		xmlEscape(srcJid), xmlEscaoe(destJid), xmlEscape(roomJid), password, reason)
 }
