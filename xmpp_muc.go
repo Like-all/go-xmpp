@@ -59,5 +59,5 @@ func (c *Client) InviteToMUC(srcJid, destJid, roomJid, password, reason string) 
 		"<x xmlns='%s'" +
 		"jid='%s' %s %s/>" +
 		"</message>",
-		xmlEscape(srcJid), xmlEscaoe(destJid), nsConference, xmlEscape(roomJid), password, reason)
+		xmlEscape(srcJid), xmlEscape(destJid), nsConference, xmlEscape(roomJid), password, reason)
 }
